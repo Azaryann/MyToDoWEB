@@ -74,6 +74,57 @@ public class ToDoService {
         return todos;
     }
 
+    public List<ToDo> getToDoByUserSortedByDate(int userId) {
+        List<ToDo> toDos = new ArrayList<>();
+        String query = "SELECT * FROM todo WHERE user_id = '" + userId + "' ORDER BY finish_date";
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                toDos.add(ToDo.builder()
+                        .id(resultSet.getInt("id"))
+                        .title(resultSet.getString("title"))
+                        .createdDate(resultSet.getDate("created_date"))
+                        .finishDate(resultSet.getDate("finish_date"))
+                        .user(userService.getUserById(resultSet.getInt("user_id")))
+                        .status(ToDoStatus.valueOf(resultSet.getString("status")))
+                        .build());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return toDos;
+    }
+
+    public ToDo getToDoWithUserIdAndToDoId(int user_id, int toDoId) {
+        String sql = "SELECT * FROM to_do WHERE id = " + toDoId + " AND " + "user_id=" + user_id;
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                return ToDo.builder()
+                        .id(resultSet.getInt("id"))
+                        .title(resultSet.getString("title"))
+                        .createdDate(resultSet.getDate("created_date"))
+                        .finishDate(resultSet.getDate("finish_date"))
+                        .status(ToDoStatus.valueOf(resultSet.getString("status")))
+                        .user(userService.getUserById(user_id))
+                        .build();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public void changeToDoStatus(ToDoStatus status, int toDoId) {
+        String sql = "UPDATE to_do SET status= '" + status + "' WHERE id=" + toDoId;
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void update(ToDo todo) {
         String sql = "UPDATE todo SET title = ?, created_date = ?, finish_date = ?, user_id = ?, status = ? WHERE id = " + todo.getId();
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

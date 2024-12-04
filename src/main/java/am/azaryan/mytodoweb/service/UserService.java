@@ -4,10 +4,13 @@ import am.azaryan.mytodoweb.db.DBConnectionProvider;
 import am.azaryan.mytodoweb.model.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserService {
 
     private final Connection connection = DBConnectionProvider.getInstance().getConnection();
+    private User user;
 
     public void add(User user) {
         String sql = "INSERT INTO user(name, surname, email, password) VALUES(?,?,?,?)";
@@ -64,4 +67,32 @@ public class UserService {
         }
         return null;
     }
+
+    public List<User> getUsersExceptCurrent(int currentUserId) {
+        String sql = "SELECT * FROM user WHERE id <> ?";
+        List<User> result = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, currentUserId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                user = createFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private User createFromResultSet(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setSurname(resultSet.getString("surname"));
+        user.setEmail(resultSet.getString("email"));
+        user.setPassword(resultSet.getString("password"));
+        return user;
+    }
+
 }
+

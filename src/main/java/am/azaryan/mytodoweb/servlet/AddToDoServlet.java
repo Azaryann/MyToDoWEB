@@ -29,7 +29,7 @@ public class AddToDoServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String title = req.getParameter("title");
         Date finishDate = DateUtil.stringToDate(req.getParameter("finishDate"));
 

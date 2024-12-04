@@ -29,7 +29,7 @@ public class EditToDoServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         String title = req.getParameter("title");
         Date createdDate = DateUtil.stringToDate(req.getParameter("createdDate"));
