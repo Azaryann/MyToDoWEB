@@ -3,39 +3,54 @@
 <html>
 <head>
     <title>JSP - Hello World</title>
-    <link rel="stylesheet" href="/css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-</head>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <script src="/js/bootstrap.bundle.min.js"></script>
 <body>
-<% if(request.getSession().getAttribute("msg") != null) { %>
+<% if (request.getSession().getAttribute("msg") != null) { %>
 <span style="color: red"><%=request.getSession().getAttribute("msg")%></span>
 <% } %>
-<div class="center">
-    <input type="checkbox" id="show">
-    <label for="show" class="show-btn">View Form</label>
-    <div class="container">
-        <label for="show" class="close-btn fas fa-times" title="close"></label>
-        <div class="text">
-            Login Form
+<section class="vh-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 text-black">
+
+                <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+                    <form style="width: 23rem;">
+
+                        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="email" id="form2Example18" class="form-control form-control-lg" required
+                                   name="email"/>
+                            <label class="form-label" for="form2Example18">Email address</label>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="form2Example28" class="form-control form-control-lg" required
+                                   name="password"/>
+                            <label class="form-label" for="form2Example28">Password</label>
+                        </div>
+
+                        <div class="pt-1 mb-4">
+                            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-lg btn-block"
+                                    type="submit">Login
+                            </button>
+                        </div>
+
+                        <p>Don't have an account? <a href="/register" class="link-info">Register here</a></p>
+
+                    </form>
+
+                </div>
+
+            </div>
+            <div class="col-sm-6 px-0 d-none d-sm-block">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img3.webp"
+                     alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+            </div>
         </div>
-        <form action="/login" method="post">
-            <div class="data">
-                <label>Email</label>
-                <input type="email" required name="email">
-            </div>
-            <div class="data">
-                <label>Password</label>
-                <input type="password" required name="password">
-            </div>
-            <div class="btn">
-                <div class="inner"></div>
-                <button type="submit">login</button>
-            </div>
-            <div class="signup-link">
-                Not a member? <a href="/register">Signup now</a>
-            </div>
-        </form>
     </div>
-</div>
+</section>
 </body>
 </html>
