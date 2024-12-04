@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card">
-                <h2 class="card-title text-center">Register <a href="http://opensnippets.com">open snippets</a></h2>
+                <h2 class="card-title text-center">Register</h2>
                 <div class="card-body py-md-4">
                     <form _lpchecked="1" action="/register" method="post">
                         <div class="form-group">
